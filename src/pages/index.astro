@@ -1,0 +1,96 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
+import About from "../components/About.astro";
+import Services from "../components/Services.astro";
+import Experience from "../components/Experience.astro";
+import Cases from "../components/Cases.astro";
+import Testimonials from "../components/Testimonials.astro";
+import Contact from "../components/Contact.astro";
+import { t } from "../i18n";
+import {
+  getSiteSettings, getHero, getAbout, getServices,
+  getTestimonials, getCaseStudies, getExperience, urlFor,
+} from "../lib/sanity";
+
+const lang = "de";
+const tr = t(lang);
+
+const [settings, sanityHero, sanityAbout, sanityServices, sanityTestimonials, sanityCases, sanityExperience] =
+  await Promise.all([
+    getSiteSettings(), getHero(), getAbout(), getServices(),
+    getTestimonials(), getCaseStudies(), getExperience(),
+  ]);
+
+// ── Hero ──────────────────────────────────────────────────────────────────
+if (sanityHero) {
+  tr.hero.available    = sanityHero.available    ?? tr.hero.available;
+  tr.hero.subtitle     = sanityHero.subtitle     ?? tr.hero.subtitle;
+  tr.hero.tagline      = sanityHero.tagline      ?? tr.hero.tagline;
+  tr.hero.description  = sanityHero.description  ?? tr.hero.description;
+  if (sanityHero.stats?.length) {
+    tr.hero.stats = sanityHero.stats.map((s: any) => ({
+      value: s.value, suffix: s.suffix, label: s.label ?? s.label_en,
+    }));
+  }
+}
+
+// ── About ─────────────────────────────────────────────────────────────────
+if (sanityAbout) {
+  tr.about.label  = sanityAbout.label  ?? tr.about.label;
+  tr.about.title  = sanityAbout.title  ?? tr.about.title;
+  tr.about.bio    = sanityAbout.bio    ?? tr.about.bio;
+  tr.about.bio2   = sanityAbout.bio2   ?? tr.about.bio2;
+  if (sanityAbout.highlights?.length) {
+    tr.about.highlights = sanityAbout.highlights.map((h: any) => h.text ?? h.text_en);
+  }
+}
+
+// ── Services ──────────────────────────────────────────────────────────────
+if (sanityServices?.length) {
+  tr.services.items = sanityServices.map((s: any) => ({
+    title: s.title, description: s.description,
+  }));
+}
+
+// ── Testimonials ──────────────────────────────────────────────────────────
+if (sanityTestimonials?.length) {
+  tr.testimonials.items = sanityTestimonials.map((t: any) => ({
+    quote: t.quote, name: t.name, role: t.role,
+  }));
+}
+
+// ── Cases ─────────────────────────────────────────────────────────────────
+if (sanityCases?.length) {
+  tr.cases.items = sanityCases.map((c: any) => ({
+    tag: c.tag, title: c.title, industry: c.industry,
+    result: c.result, description: c.description,
+  }));
+}
+
+// ── Experience ────────────────────────────────────────────────────────────
+if (sanityExperience?.length) {
+  tr.experience.items = sanityExperience.map((e: any) => ({
+    company: e.company, location: e.location,
+    roles: (e.roles ?? []).map((r: any) => ({
+      period: r.period, role: r.role, description: r.description,
+    })),
+  }));
+}
+---
+
+<Layout
+  lang={lang}
+  tr={tr}
+  settings={settings}
+  title="Johannes Legrand – Interim COO & Geschäftsführer"
+  description="Erfahrener Interim COO und Geschäftsführer. Transformation, Wachstum, Restrukturierung. Verfügbar für Mandate in der DACH-Region."
+>
+  <Hero tr={tr} lang={lang} profileImage={sanityHero?.profileImage} />
+  <About tr={tr} aboutImage={sanityAbout?.image} badgeValue={sanityAbout?.badgeValue} badgeLabel={sanityAbout?.badgeLabel} />
+  <Services tr={tr} />
+  <Experience tr={tr} />
+  <Cases tr={tr} />
+  <Testimonials tr={tr} />
+  <Contact tr={tr} settings={settings} />
+</Layout>

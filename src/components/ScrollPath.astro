@@ -1,0 +1,66 @@
+<div class="scroll-path" aria-hidden="true">
+  <svg id="scrollPathSvg" viewBox="0 0 60 1000" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background track -->
+    <path
+      id="trackPath"
+      d="M30,0 C30,80 15,160 30,280 C45,400 15,480 30,580 C45,680 15,760 30,880 C45,940 30,1000 30,1000"
+      stroke="rgba(13,148,136,0.12)"
+      stroke-width="2"
+      stroke-linecap="round"
+    />
+    <!-- Animated fill path -->
+    <path
+      id="activePath"
+      d="M30,0 C30,80 15,160 30,280 C45,400 15,480 30,580 C45,680 15,760 30,880 C45,940 30,1000 30,1000"
+      stroke="url(#pathGradient)"
+      stroke-width="2"
+      stroke-linecap="round"
+    />
+    <defs>
+      <linearGradient id="pathGradient" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+        <stop offset="0%" stop-color="#5EEAD4"/>
+        <stop offset="100%" stop-color="#0D9488"/>
+      </linearGradient>
+    </defs>
+  </svg>
+</div>
+
+<style>
+.scroll-path {
+  position: fixed;
+  left: clamp(12px, 2.5vw, 32px);
+  top: 0;
+  bottom: 0;
+  width: 60px;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.scroll-path svg {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 900px) {
+  .scroll-path { display: none; }
+}
+</style>
+
+<script>
+  const activePath = document.getElementById("activePath") as SVGPathElement | null;
+  if (activePath) {
+    const length = activePath.getTotalLength();
+    activePath.style.strokeDasharray = String(length);
+    activePath.style.strokeDashoffset = String(length);
+
+    function onScroll() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = Math.min(scrollTop / docHeight, 1);
+      activePath!.style.strokeDashoffset = String(length * (1 - progress));
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  }
+</script>

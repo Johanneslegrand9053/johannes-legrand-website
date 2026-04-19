@@ -1,0 +1,98 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Hero from "../../components/Hero.astro";
+import About from "../../components/About.astro";
+import Services from "../../components/Services.astro";
+import Experience from "../../components/Experience.astro";
+import Cases from "../../components/Cases.astro";
+import Testimonials from "../../components/Testimonials.astro";
+import Contact from "../../components/Contact.astro";
+import { t } from "../../i18n";
+import {
+  getSiteSettings, getHero, getAbout, getServices,
+  getTestimonials, getCaseStudies, getExperience,
+} from "../../lib/sanity";
+
+const lang = "en";
+const tr = t(lang);
+
+const [settings, sanityHero, sanityAbout, sanityServices, sanityTestimonials, sanityCases, sanityExperience] =
+  await Promise.all([
+    getSiteSettings(), getHero(), getAbout(), getServices(),
+    getTestimonials(), getCaseStudies(), getExperience(),
+  ]);
+
+// ── Hero ──────────────────────────────────────────────────────────────────
+if (sanityHero) {
+  tr.hero.available   = sanityHero.available_en   ?? sanityHero.available   ?? tr.hero.available;
+  tr.hero.subtitle    = sanityHero.subtitle_en    ?? sanityHero.subtitle    ?? tr.hero.subtitle;
+  tr.hero.tagline     = sanityHero.tagline_en     ?? sanityHero.tagline     ?? tr.hero.tagline;
+  tr.hero.description = sanityHero.description_en ?? sanityHero.description ?? tr.hero.description;
+  if (sanityHero.stats?.length) {
+    tr.hero.stats = sanityHero.stats.map((s: any) => ({
+      value: s.value, suffix: s.suffix, label: s.label_en ?? s.label,
+    }));
+  }
+}
+
+// ── About ─────────────────────────────────────────────────────────────────
+if (sanityAbout) {
+  tr.about.label  = sanityAbout.label_en  ?? sanityAbout.label  ?? tr.about.label;
+  tr.about.title  = sanityAbout.title_en  ?? sanityAbout.title  ?? tr.about.title;
+  tr.about.bio    = sanityAbout.bio_en    ?? sanityAbout.bio    ?? tr.about.bio;
+  tr.about.bio2   = sanityAbout.bio2_en   ?? sanityAbout.bio2   ?? tr.about.bio2;
+  if (sanityAbout.highlights?.length) {
+    tr.about.highlights = sanityAbout.highlights.map((h: any) => h.text_en ?? h.text);
+  }
+}
+
+// ── Services ──────────────────────────────────────────────────────────────
+if (sanityServices?.length) {
+  tr.services.items = sanityServices.map((s: any) => ({
+    title: s.title_en ?? s.title, description: s.description_en ?? s.description,
+  }));
+}
+
+// ── Testimonials ──────────────────────────────────────────────────────────
+if (sanityTestimonials?.length) {
+  tr.testimonials.items = sanityTestimonials.map((t: any) => ({
+    quote: t.quote_en ?? t.quote, name: t.name, role: t.role,
+  }));
+}
+
+// ── Cases ─────────────────────────────────────────────────────────────────
+if (sanityCases?.length) {
+  tr.cases.items = sanityCases.map((c: any) => ({
+    tag: c.tag_en ?? c.tag, title: c.title_en ?? c.title,
+    industry: c.industry, result: c.result_en ?? c.result,
+    description: c.description_en ?? c.description,
+  }));
+}
+
+// ── Experience ────────────────────────────────────────────────────────────
+if (sanityExperience?.length) {
+  tr.experience.items = sanityExperience.map((e: any) => ({
+    company: e.company, location: e.location,
+    roles: (e.roles ?? []).map((r: any) => ({
+      period: r.period, role: r.role_en ?? r.role,
+      description: r.description_en ?? r.description,
+    })),
+  }));
+}
+---
+
+<Layout
+  lang={lang}
+  tr={tr}
+  settings={settings}
+  title="Johannes Legrand – Interim COO & Managing Director"
+  description="Experienced Interim COO and Managing Director. Transformation, growth, restructuring. Available for mandates in the DACH region."
+>
+  <Hero tr={tr} lang={lang} profileImage={sanityHero?.profileImage} />
+  <About tr={tr} aboutImage={sanityAbout?.image} badgeValue={sanityAbout?.badgeValue} badgeLabel={sanityAbout?.badgeLabel_en ?? sanityAbout?.badgeLabel} />
+  <Services tr={tr} />
+  <Experience tr={tr} />
+  <Cases tr={tr} />
+  <Testimonials tr={tr} />
+  <Contact tr={tr} settings={settings} />
+</Layout>

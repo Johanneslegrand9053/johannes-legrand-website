@@ -1,0 +1,150 @@
+---
+import { urlFor } from "../lib/sanity";
+
+interface Props {
+  tr: any;
+  aboutImage?: any;
+  badgeValue?: string;
+  badgeLabel?: string;
+}
+const { tr, aboutImage, badgeValue, badgeLabel } = Astro.props;
+const imgSrc = aboutImage
+  ? urlFor(aboutImage).width(760).height(1010).url()
+  : "/images/Gemini_Generated_Image_nd7pmfnd7pmfnd7p.png";
+---
+
+<section id="about" class="reveal">
+  <div class="container about-inner">
+    <div class="about-text">
+      <span class="section-label reveal-heading">{tr.about.label}</span>
+      <h2 class="reveal-heading">{tr.about.title}</h2>
+      <div class="divider"></div>
+      <p>{tr.about.bio}</p>
+      <p style="margin-top: 1rem;">{tr.about.bio2}</p>
+
+      <ul class="highlights">
+        {tr.about.highlights.map((h: string) => (
+          <li class="reveal-item">
+            <span class="check">✓</span>
+            {h}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="about-photo">
+      <div class="photo-frame">
+        <img src={imgSrc} alt="Johannes Legrand" />
+      </div>
+      {(badgeValue || badgeLabel) && (
+        <div class="about-badge">
+          <span class="badge-num">{badgeValue ?? "15+"}</span>
+          <span class="badge-label" set:html={(badgeLabel ?? "Jahre\nFührung").replace(/\\n/g, "<br/>")} />
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+.about-inner {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 80px;
+  align-items: center;
+}
+
+.about-text p {
+  font-size: 1.0625rem;
+  color: var(--color-text);
+  line-height: 1.75;
+}
+
+.highlights {
+  list-style: none;
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 24px;
+}
+
+.highlights li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+.check {
+  width: 22px;
+  height: 22px;
+  background: var(--color-accent);
+  color: white;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.about-photo {
+  position: relative;
+}
+
+.photo-frame {
+  width: 100%;
+  aspect-ratio: 3/4;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+.photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.about-badge {
+  position: absolute;
+  bottom: -16px;
+  right: -16px;
+  background: var(--color-accent);
+  color: white;
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: var(--shadow-lg);
+}
+
+.badge-num {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.badge-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+  margin-top: 4px;
+  opacity: 0.9;
+  line-height: 1.3;
+}
+
+@media (max-width: 900px) {
+  .about-inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .about-photo { max-width: 320px; margin: 0 auto; }
+  .highlights { grid-template-columns: 1fr; }
+}
+</style>

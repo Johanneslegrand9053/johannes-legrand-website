@@ -1,0 +1,100 @@
+---
+interface Props {
+  tr: any;
+}
+const { tr } = Astro.props;
+---
+
+<section id="testimonials" class="reveal">
+  <div class="container">
+    <div class="section-header reveal-heading">
+      <span class="section-label">{tr.testimonials.label}</span>
+      <h2>{tr.testimonials.title}</h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="grid-3">
+      {tr.testimonials.items.map((item: any) => (
+        <div class="testimonial-card card reveal-item">
+          <div class="quote-mark">"</div>
+          <blockquote>{item.quote}</blockquote>
+          <div class="testimonial-author">
+            <div class="author-avatar">
+              {item.name.charAt(1).toUpperCase()}
+            </div>
+            <div>
+              <p class="author-name">{item.name}</p>
+              <p class="author-role">{item.role}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+.section-header {
+  max-width: 600px;
+  margin-bottom: 56px;
+}
+
+.testimonial-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+}
+
+.quote-mark {
+  font-size: 4rem;
+  line-height: 0.6;
+  color: var(--color-accent);
+  font-family: var(--font-serif);
+  opacity: 0.4;
+  user-select: none;
+}
+
+blockquote {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--color-text);
+  font-style: italic;
+  flex: 1;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border);
+}
+
+.author-avatar {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+.author-name {
+  font-weight: 700;
+  font-size: 0.9375rem;
+  color: var(--color-primary);
+}
+
+.author-role {
+  font-size: 0.8125rem;
+  color: var(--color-text-light);
+  margin-top: 2px;
+}
+</style>

@@ -1,0 +1,58 @@
+<div class="project-counter" aria-hidden="true">
+  <span class="counter-num" id="projectNum">1</span>
+  <span class="counter-label">Projekte</span>
+</div>
+
+<style>
+.project-counter {
+  position: fixed;
+  right: clamp(12px, 2.5vw, 32px);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  pointer-events: none;
+}
+
+.counter-num {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  font-family: var(--font-serif);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  transition: opacity 0.2s ease;
+}
+
+.counter-label {
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  opacity: 0.6;
+}
+
+@media (max-width: 900px) {
+  .project-counter { display: none; }
+}
+</style>
+
+<script>
+  const numEl = document.getElementById("projectNum");
+  const MAX = 15;
+
+  function onScroll() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? Math.min(scrollTop / docHeight, 1) : 0;
+    const current = Math.max(1, Math.round(progress * MAX));
+    if (numEl) numEl.textContent = String(current);
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+</script>

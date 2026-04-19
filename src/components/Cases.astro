@@ -1,0 +1,108 @@
+---
+interface Props {
+  tr: any;
+}
+const { tr } = Astro.props;
+---
+
+<section id="cases" class="section-alt reveal">
+  <div class="container">
+    <div class="section-header reveal-heading">
+      <span class="section-label">{tr.cases.label}</span>
+      <h2>{tr.cases.title}</h2>
+      <div class="divider"></div>
+      <p class="section-sub">{tr.cases.subtitle}</p>
+    </div>
+
+    <div class="grid-3">
+      {tr.cases.items.map((item: any) => (
+        <div class="case-card card reveal-item">
+          <div class="case-top">
+            <span class="case-tag">{item.tag}</span>
+            <span class="case-industry">{item.industry}</span>
+          </div>
+          <h3>{item.title}</h3>
+          <div class="case-result">
+            <span class="result-icon">→</span>
+            {item.result}
+          </div>
+          <p>{item.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+.section-header {
+  max-width: 600px;
+  margin-bottom: 56px;
+}
+
+.section-sub {
+  font-size: 1.0625rem;
+  color: var(--color-text-light);
+  margin-top: 8px;
+}
+
+.case-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.case-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.case-tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  background: rgba(13, 148, 136, 0.1);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.case-industry {
+  font-size: 0.8125rem;
+  color: var(--color-text-light);
+  font-weight: 500;
+}
+
+.case-card h3 {
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.case-result {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  background: var(--color-bg-alt);
+  border-left: 3px solid var(--color-accent);
+  padding: 10px 14px;
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.result-icon {
+  color: var(--color-accent);
+  font-size: 1rem;
+}
+
+.case-card p {
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  line-height: 1.65;
+  flex: 1;
+}
+</style>

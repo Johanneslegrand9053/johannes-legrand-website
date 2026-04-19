@@ -1,0 +1,358 @@
+---
+const projects = [
+  { name: "Turnaround Mittelstand",        industry: "Industrie",        result: "EBITDA +15% in 90 Tagen" },
+  { name: "Supply Chain Transformation",   industry: "Produktion",       result: "Lieferzeit -30%, Kosten -18%" },
+  { name: "Post-Merger Integration",       industry: "B2B Services",     result: "2 Einheiten in 4 Monaten vereint" },
+  { name: "Digitalisierung Operations",    industry: "Mittelstand",      result: "Prozesskosten -25%" },
+  { name: "Markteintritt DACH",            industry: "E-Commerce",       result: "3 Märkte in 6 Monaten" },
+  { name: "Restrukturierung Produktion",   industry: "Industrie",        result: "Kapazität +40%, Ausschuss -60%" },
+  { name: "ERP Implementierung",           industry: "Handel",           result: "Go-Live in Budget und Zeit" },
+  { name: "Wachstumsstrategie E-Commerce", industry: "Retail",           result: "Umsatz +80% in 18 Monaten" },
+  { name: "Kostenoptimierung Logistik",    industry: "Logistik",         result: "Einsparung 4,2 Mio. € p.a." },
+  { name: "Teamaufbau International",      industry: "Tech",             result: "50 → 200 FTE in 12 Monaten" },
+  { name: "Prozessoptimierung",            industry: "Services",         result: "Durchlaufzeit -45%" },
+  { name: "M&A Integration",              industry: "Industrie",        result: "Synergien 6 Monate früher" },
+  { name: "Internationalisierung",         industry: "B2B",              result: "5 Länder, 1 Betriebsmodell" },
+  { name: "Operational Excellence",        industry: "Produktion",       result: "OEE +22 Prozentpunkte" },
+  { name: "Henry Lamotte – Interim COO",   industry: "Rohstoffhandel",   result: "Laufendes Mandat · Aktuell" },
+];
+---
+
+<!-- Tracker -->
+<div class="pt-wrap" id="ptWrap" aria-label="Projektübersicht">
+  <div class="pt-header">
+    <span class="pt-count">15</span>
+    <span class="pt-meta">Projekte</span>
+  </div>
+
+  <div class="pt-line-wrap">
+    <div class="pt-track"></div>
+    <div class="pt-fill" id="ptFill"></div>
+
+    {projects.map((p, i) => (
+      <button
+        class="pt-dot"
+        data-index={i}
+        data-name={p.name}
+        data-industry={p.industry}
+        data-result={p.result}
+        aria-label={p.name}
+        style={`top: ${(i / (projects.length - 1)) * 100}%`}
+      >
+        <span class="pt-dot-inner"></span>
+        <span class="pt-tooltip">{p.name}</span>
+      </button>
+    ))}
+  </div>
+
+  <div class="pt-footer">100% abgeschlossen</div>
+</div>
+
+<!-- Popup -->
+<div class="pt-popup" id="ptPopup" aria-hidden="true">
+  <button class="pt-popup-close" id="ptClose" aria-label="Schließen">✕</button>
+  <span class="pt-popup-num" id="ptPopupNum"></span>
+  <p class="pt-popup-name" id="ptPopupName"></p>
+  <span class="pt-popup-tag" id="ptPopupTag"></span>
+  <p class="pt-popup-result" id="ptPopupResult"></p>
+</div>
+
+<style>
+/* ── Wrapper ─────────────────────────────────── */
+.pt-wrap {
+  position: fixed;
+  right: clamp(14px, 2.5vw, 28px);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+}
+
+/* ── Header / Footer ─────────────────────────── */
+.pt-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.pt-count {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  font-family: var(--font-serif);
+  line-height: 1;
+}
+.pt-meta {
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  opacity: 0.65;
+}
+.pt-footer {
+  font-size: 0.45rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  opacity: 0.5;
+  writing-mode: horizontal-tb;
+  text-align: center;
+  max-width: 52px;
+  line-height: 1.3;
+}
+
+/* ── Line ────────────────────────────────────── */
+.pt-line-wrap {
+  position: relative;
+  width: 20px;
+  height: 55vh;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+.pt-track,
+.pt-fill {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 100%;
+  border-radius: 2px;
+}
+.pt-track { background: rgba(13,148,136,0.18); }
+.pt-fill {
+  background: linear-gradient(to bottom, #5EEAD4, #0D9488);
+  transform-origin: top center;
+  transform: translateX(-50%) scaleY(0);
+  transition: transform 0.08s linear;
+}
+
+/* ── Dots ────────────────────────────────────── */
+.pt-dot {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  pointer-events: all;
+  z-index: 2;
+}
+.pt-dot-inner {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(13,148,136,0.25);
+  border: 1.5px solid rgba(13,148,136,0.4);
+  transition: background 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  display: block;
+}
+.pt-dot.active .pt-dot-inner {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+.pt-dot:hover .pt-dot-inner,
+.pt-dot.open .pt-dot-inner {
+  transform: scale(1.7);
+  background: var(--color-accent-light);
+  border-color: var(--color-accent-light);
+  box-shadow: 0 0 0 4px rgba(13,148,136,0.2);
+}
+
+/* ── Tooltip ─────────────────────────────────── */
+.pt-tooltip {
+  position: absolute;
+  right: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--color-primary);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.pt-tooltip::after {
+  content: '';
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 5px solid transparent;
+  border-left-color: var(--color-primary);
+}
+.pt-dot:hover .pt-tooltip { opacity: 1; }
+
+/* ── Popup ───────────────────────────────────── */
+.pt-popup {
+  position: fixed;
+  right: clamp(58px, 7vw, 80px);
+  top: 50%;
+  transform: translateY(-50%) translateX(12px);
+  width: 220px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 20px 18px;
+  box-shadow: var(--shadow-lg);
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.pt-popup.open {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(-50%) translateX(0);
+}
+.pt-popup-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 0.75rem;
+  color: var(--color-text-light);
+  cursor: pointer;
+  line-height: 1;
+  padding: 2px;
+}
+.pt-popup-close:hover { color: var(--color-primary); }
+.pt-popup-num {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+.pt-popup-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1.3;
+  margin: 0;
+}
+.pt-popup-tag {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  background: rgba(13,148,136,0.1);
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+.pt-popup-result {
+  font-size: 0.8125rem;
+  color: var(--color-text);
+  line-height: 1.5;
+  margin: 0;
+  padding-top: 6px;
+  border-top: 1px solid var(--color-border);
+}
+
+/* ── Responsive ──────────────────────────────── */
+@media (max-width: 900px) {
+  .pt-wrap, .pt-popup { display: none; }
+}
+</style>
+
+<script>
+  const fill    = document.getElementById("ptFill");
+  const dots    = document.querySelectorAll<HTMLElement>(".pt-dot");
+  const popup   = document.getElementById("ptPopup");
+  const pNum    = document.getElementById("ptPopupNum");
+  const pName   = document.getElementById("ptPopupName");
+  const pTag    = document.getElementById("ptPopupTag");
+  const pResult = document.getElementById("ptPopupResult");
+  const pClose  = document.getElementById("ptClose");
+  const TOTAL   = dots.length;
+
+  // Scroll → fill line + activate dots
+  function onScroll() {
+    const scrollTop  = window.scrollY;
+    const docHeight  = document.documentElement.scrollHeight - window.innerHeight;
+    const progress   = docHeight > 0 ? Math.min(scrollTop / docHeight, 1) : 0;
+
+    if (fill) {
+      (fill as HTMLElement).style.transform = `translateX(-50%) scaleY(${progress})`;
+    }
+
+    const activeCount = Math.round(progress * (TOTAL - 1));
+    dots.forEach((dot, i) => {
+      dot.classList.toggle("active", i <= activeCount);
+    });
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  // Click → open popup
+  let openDot: HTMLElement | null = null;
+
+  dots.forEach((dot) => {
+    dot.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const idx = parseInt(dot.dataset.index || "0");
+
+      if (openDot === dot) {
+        closePopup();
+        return;
+      }
+
+      openDot = dot;
+      dot.classList.add("open");
+
+      if (pNum)    pNum.textContent    = `Projekt ${idx + 1} / ${TOTAL}`;
+      if (pName)   pName.textContent   = dot.dataset.name   || "";
+      if (pTag)    pTag.textContent    = dot.dataset.industry || "";
+      if (pResult) pResult.textContent = dot.dataset.result  || "";
+
+      // Position popup aligned to dot
+      const dotRect  = dot.getBoundingClientRect();
+      const midY     = dotRect.top + dotRect.height / 2;
+      if (popup) {
+        const popupH = 160;
+        const clampedY = Math.min(
+          Math.max(midY - popupH / 2, 80),
+          window.innerHeight - popupH - 20
+        );
+        popup.style.top  = `${clampedY}px`;
+        popup.style.transform = "translateX(0)";
+        popup.classList.add("open");
+      }
+    });
+  });
+
+  function closePopup() {
+    popup?.classList.remove("open");
+    openDot?.classList.remove("open");
+    openDot = null;
+  }
+
+  pClose?.addEventListener("click", closePopup);
+  document.addEventListener("click", (e) => {
+    if (!popup?.contains(e.target as Node)) closePopup();
+  });
+</script>

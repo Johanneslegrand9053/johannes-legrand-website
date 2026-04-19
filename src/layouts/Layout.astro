@@ -1,0 +1,113 @@
+---
+import "../styles/global.css";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import ScrollPath from "../components/ScrollPath.astro";
+import { getLang, t } from "../i18n";
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: "de" | "en";
+  tr?: any;
+  settings?: any;
+}
+
+const {
+  title = "Johannes Legrand – Interim COO & Geschäftsführer",
+  description = "Erfahrener Interim COO und Geschäftsführer. Operationale Exzellenz, Transformation und Wachstum. Verfügbar für Mandate in der DACH-Region.",
+  lang = "de",
+  settings,
+} = Astro.props;
+
+const tr = Astro.props.tr ?? t(lang);
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={lang === "de" ? "de_DE" : "en_US"} />
+
+    <!-- Canonical -->
+    <link rel="canonical" href={Astro.url.href} />
+
+    <!-- Hreflang -->
+    <link rel="alternate" hreflang="de" href="/" />
+    <link rel="alternate" hreflang="en" href="/en/" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>{title}</title>
+  </head>
+  <body>
+    <Nav lang={lang} tr={tr} settings={settings} />
+    <ScrollPath />
+    <main>
+      <slot />
+    </main>
+    <Footer lang={lang} tr={tr} settings={settings} />
+  <script>
+    // Section reveal
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          sectionObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.06 });
+
+    document.querySelectorAll(".reveal").forEach((el) => sectionObserver.observe(el));
+
+    // Heading reveal
+    const headingObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          headingObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll(".reveal-heading").forEach((el) => headingObserver.observe(el));
+
+    // Staggered item reveal — fires children with delay offset
+    const itemObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const el = entry.target as HTMLElement;
+          const delay = parseFloat(el.dataset.delay || "0");
+          setTimeout(() => el.classList.add("visible"), delay);
+          itemObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll(".reveal-item").forEach((el, i) => {
+      // Auto-stagger siblings in the same parent
+      const siblings = el.parentElement?.querySelectorAll(".reveal-item") || [];
+      const idx = Array.from(siblings).indexOf(el);
+      (el as HTMLElement).dataset.delay = String(idx * 100);
+      itemObserver.observe(el);
+    });
+  </script>
+  </body>
+</html>

@@ -1,0 +1,110 @@
+---
+interface Props {
+  lang: "de" | "en";
+  tr: any;
+  settings?: any;
+}
+const { lang, tr, settings } = Astro.props;
+const tagline = lang === "en"
+  ? (settings?.footerTagline_en ?? tr.footer.tagline)
+  : (settings?.footerTagline ?? tr.footer.tagline);
+const copyright = settings?.footerCopyright ?? tr.footer.copyright;
+const prefix = lang === "en" ? "/en" : "";
+---
+
+<footer>
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <span class="footer-logo">JL</span>
+      <p class="footer-tagline">{tagline}</p>
+    </div>
+
+    <nav class="footer-nav">
+      <a href={prefix + "/#about"}>{tr.nav.about}</a>
+      <a href={prefix + "/#services"}>{tr.nav.services}</a>
+      <a href={prefix + "/#experience"}>{tr.nav.experience}</a>
+      <a href={prefix + "/#cases"}>{tr.nav.cases}</a>
+      <a href={prefix + "/#contact"}>{tr.nav.contact}</a>
+    </nav>
+
+    <div class="footer-legal">
+      <a href={prefix + "/impressum"}>{ tr.footer.imprint }</a>
+      <a href={prefix + "/datenschutz"}>{ tr.footer.privacy }</a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container">
+      <p>{copyright}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+footer {
+  background: var(--color-primary);
+  color: rgba(255,255,255,0.7);
+  padding: 56px 0 0;
+}
+
+.footer-inner {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 48px;
+  align-items: start;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  font-family: var(--font-serif);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.footer-tagline {
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.5);
+}
+
+.footer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-nav a, .footer-legal a {
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.6);
+  transition: color 0.15s;
+}
+.footer-nav a:hover, .footer-legal a:hover {
+  color: var(--color-accent-light);
+}
+
+.footer-legal {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-bottom {
+  padding: 20px 0;
+}
+
+.footer-bottom p {
+  font-size: 0.8125rem;
+  color: rgba(255,255,255,0.35);
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  .footer-inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+</style>

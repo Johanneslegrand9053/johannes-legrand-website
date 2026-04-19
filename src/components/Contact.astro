@@ -1,0 +1,208 @@
+---
+interface Props {
+  tr: any;
+  settings?: any;
+}
+const { tr, settings } = Astro.props;
+const contactEmail = settings?.contactEmail ?? "johannes.legrand@icloud.com";
+const linkedinUrl = settings?.linkedinUrl ?? "https://www.linkedin.com/in/johannes-legrand-12920b199/";
+---
+
+<section id="contact" class="contact-section">
+  <div class="container">
+    <div class="contact-inner">
+      <div class="contact-text">
+        <span class="section-label" style="color: #5EEAD4;">{tr.contact.label}</span>
+        <h2 style="color: white;">{tr.contact.title}</h2>
+        <div class="divider"></div>
+        <p style="color: rgba(255,255,255,0.7); font-size: 1.0625rem; line-height: 1.7;">
+          {tr.contact.subtitle}
+        </p>
+
+        <div class="contact-links">
+          <a href={`mailto:${contactEmail}`} class="contact-link">
+            <span class="link-icon">✉</span>
+            {contactEmail}
+          </a>
+          <a
+            href={linkedinUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="contact-link"
+          >
+            <span class="link-icon">in</span>
+            {tr.contact.linkedin}
+          </a>
+          <p class="availability-note">{tr.contact.availability}</p>
+        </div>
+      </div>
+
+      <div class="contact-form-wrap">
+        <form class="contact-form" id="contactForm">
+          <div class="form-group">
+            <input
+              type="text"
+              name="name"
+              placeholder={tr.contact.namePlaceholder}
+              required
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="email"
+              name="email"
+              placeholder={tr.contact.emailPlaceholder}
+              required
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="text"
+              name="company"
+              placeholder={tr.contact.companyPlaceholder}
+            />
+          </div>
+          <div class="form-group">
+            <textarea
+              name="message"
+              rows="4"
+              placeholder={tr.contact.messagePlaceholder}
+            ></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+            {tr.contact.send} →
+          </button>
+          <p class="form-note" id="formStatus"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.contact-section {
+  background: linear-gradient(135deg, var(--color-primary) 0%, #0F172A 100%);
+  padding: var(--section-pad) 0;
+}
+
+.contact-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.divider {
+  background: var(--color-accent);
+}
+
+.contact-links {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(255,255,255,0.8);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  transition: color 0.15s;
+}
+.contact-link:hover { color: var(--color-accent-light); }
+
+.link-icon {
+  width: 36px;
+  height: 36px;
+  background: rgba(13, 148, 136, 0.2);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-accent-light);
+  flex-shrink: 0;
+}
+
+.availability-note {
+  font-size: 0.8125rem;
+  color: rgba(255,255,255,0.4);
+  margin-top: 8px;
+}
+
+.contact-form-wrap {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  box-shadow: var(--shadow-lg);
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: 0.9375rem;
+  font-family: var(--font-sans);
+  color: var(--color-primary);
+  background: var(--color-bg-alt);
+  transition: border-color 0.15s;
+  outline: none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--color-accent);
+  background: white;
+}
+
+.form-group textarea { resize: vertical; }
+
+.form-note {
+  font-size: 0.875rem;
+  text-align: center;
+  color: var(--color-accent);
+  min-height: 20px;
+}
+
+@media (max-width: 768px) {
+  .contact-inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+}
+</style>
+
+<script>
+  const form = document.getElementById("contactForm") as HTMLFormElement;
+  const status = document.getElementById("formStatus");
+
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const body = {
+      name: data.get("name"),
+      email: data.get("email"),
+      company: data.get("company"),
+      message: data.get("message"),
+    };
+
+    const email = document.querySelector<HTMLAnchorElement>('.contact-link[href^="mailto:"]')?.href.replace('mailto:', '') || 'johannes.legrand@icloud.com';
+    const mailto = `mailto:${email}?subject=Anfrage von ${body.name} (${body.company})&body=${encodeURIComponent(`Name: ${body.name}\nE-Mail: ${body.email}\nUnternehmen: ${body.company}\n\nNachricht:\n${body.message}`)}`;
+    window.location.href = mailto;
+
+    if (status) status.textContent = "Ihre E-Mail-App öffnet sich...";
+    form.reset();
+  });
+</script>
