@@ -13,7 +13,10 @@ const prefix = lang === "en" ? "/en" : "";
 
 <header class="nav-wrapper">
   <nav class="container nav-inner">
-    <a href={prefix + "/"} class="nav-logo">JL</a>
+    <a href={prefix + "/"} class="nav-logo">
+      <span class="logo-initials">JJL</span>
+      <span class="logo-sub">Interim Management</span>
+    </a>
 
     <button class="nav-toggle" aria-label="Menu" id="navToggle">
       <span></span><span></span><span></span>
@@ -59,11 +62,25 @@ const prefix = lang === "en" ? "/en" : "";
   height: 68px;
 }
 .nav-logo {
-  font-size: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+.logo-initials {
+  font-size: 1.375rem;
   font-weight: 700;
   color: var(--color-primary);
-  letter-spacing: 0.05em;
-  flex-shrink: 0;
+  letter-spacing: 0.12em;
+  font-family: var(--font-serif);
+}
+.logo-sub {
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
 }
 .nav-links {
   display: flex;
