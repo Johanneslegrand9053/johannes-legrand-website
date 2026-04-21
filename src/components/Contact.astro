@@ -4,7 +4,7 @@ interface Props {
   settings?: any;
 }
 const { tr, settings } = Astro.props;
-const contactEmail = settings?.contactEmail ?? "johannes.legrand@icloud.com";
+const contactEmail = settings?.contactEmail ?? "johannes.legrand@jjl-interim.com";
 const linkedinUrl = settings?.linkedinUrl ?? "https://www.linkedin.com/in/johannes-legrand-12920b199/";
 ---
 
@@ -198,7 +198,7 @@ const linkedinUrl = settings?.linkedinUrl ?? "https://www.linkedin.com/in/johann
       message: data.get("message"),
     };
 
-    const email = document.querySelector<HTMLAnchorElement>('.contact-link[href^="mailto:"]')?.href.replace('mailto:', '') || 'johannes.legrand@icloud.com';
+    const email = document.querySelector<HTMLAnchorElement>('.contact-link[href^="mailto:"]')?.href.replace('mailto:', '') || 'johannes.legrand@jjl-interim.com';
     const mailto = `mailto:${email}?subject=Anfrage von ${body.name} (${body.company})&body=${encodeURIComponent(`Name: ${body.name}\nE-Mail: ${body.email}\nUnternehmen: ${body.company}\n\nNachricht:\n${body.message}`)}`;
     window.location.href = mailto;
 
