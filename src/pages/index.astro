@@ -53,12 +53,14 @@ if (sanityServices?.length) {
 
 // ── Experience ────────────────────────────────────────────────────────────
 if (sanityExperience?.length) {
-  tr.experience.items = sanityExperience.map((e: any) => ({
-    company: e.company, location: e.location,
-    roles: (e.roles ?? []).map((r: any) => ({
-      period: r.period, role: r.role, description: r.description,
-    })),
-  }));
+  tr.experience.items = sanityExperience
+    .filter((e: any) => e.company !== "Henry Lamotte")
+    .map((e: any) => ({
+      company: e.company, location: e.location,
+      roles: (e.roles ?? []).map((r: any) => ({
+        period: r.period, role: r.role, description: r.description,
+      })),
+    }));
 }
 ---
 

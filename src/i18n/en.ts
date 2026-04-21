@@ -91,18 +91,6 @@ export const en = {
     downloadCv: "Download CV as PDF",
     items: [
       {
-        company: "Henry Lamotte",
-        location: "Hamburg",
-        roles: [
-          {
-            period: "March 2025 – Present",
-            role: "Interim COO",
-            description:
-              "Overall operational responsibility as Interim COO at Henry Lamotte, one of Europe's leading specialty raw material traders. Steering internal operations, optimizing processes and leadership structures.",
-          },
-        ],
-      },
-      {
         company: "Henkel",
         location: "Amsterdam",
         roles: [
