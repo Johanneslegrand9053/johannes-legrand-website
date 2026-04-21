@@ -15,7 +15,8 @@ const prefix = lang === "en" ? "/en" : "";
 <footer>
   <div class="container footer-inner">
     <div class="footer-brand">
-      <span class="footer-logo">JL</span>
+      <span class="footer-logo">JJL</span>
+      <span class="footer-logo-sub">Interim Management</span>
       <p class="footer-tagline">{tagline}</p>
     </div>
 
@@ -23,7 +24,6 @@ const prefix = lang === "en" ? "/en" : "";
       <a href={prefix + "/#about"}>{tr.nav.about}</a>
       <a href={prefix + "/#services"}>{tr.nav.services}</a>
       <a href={prefix + "/#experience"}>{tr.nav.experience}</a>
-      <a href={prefix + "/#cases"}>{tr.nav.cases}</a>
       <a href={prefix + "/#contact"}>{tr.nav.contact}</a>
     </nav>
 
@@ -62,7 +62,18 @@ footer {
   color: white;
   font-family: var(--font-serif);
   display: block;
-  margin-bottom: 8px;
+  letter-spacing: 0.12em;
+  line-height: 1.1;
+}
+
+.footer-logo-sub {
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 10px;
 }
 
 .footer-tagline {
