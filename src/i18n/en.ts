@@ -37,8 +37,8 @@ export const en = {
   },
   services: {
     label: "Services",
-    title: "COO Services in Detail",
-    subtitle: "I take responsibility – from day one.",
+    title: "Services in Detail",
+    subtitle: "I take responsibility, from day one.",
     stats: [
       { value: "25+", label: "Years of experience" },
       { value: "15,000+", label: "Employees led" },

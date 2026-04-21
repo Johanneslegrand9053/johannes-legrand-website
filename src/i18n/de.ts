@@ -37,8 +37,8 @@ export const de = {
   },
   services: {
     label: "Leistungen",
-    title: "COO Services im Detail",
-    subtitle: "Ich übernehme Verantwortung – von Tag eins an.",
+    title: "Services im Detail",
+    subtitle: "Ich übernehme Verantwortung, von Tag eins an.",
     stats: [
       { value: "25+", label: "Jahre Erfahrung" },
       { value: "15.000+", label: "Mitarbeiter geführt" },
