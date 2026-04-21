@@ -4,22 +4,20 @@ import Hero from "../../components/Hero.astro";
 import About from "../../components/About.astro";
 import Services from "../../components/Services.astro";
 import Experience from "../../components/Experience.astro";
-import Cases from "../../components/Cases.astro";
-import Testimonials from "../../components/Testimonials.astro";
 import Contact from "../../components/Contact.astro";
 import { t } from "../../i18n";
 import {
   getSiteSettings, getHero, getAbout, getServices,
-  getTestimonials, getCaseStudies, getExperience,
+  getExperience,
 } from "../../lib/sanity";
 
 const lang = "en";
 const tr = t(lang);
 
-const [settings, sanityHero, sanityAbout, sanityServices, sanityTestimonials, sanityCases, sanityExperience] =
+const [settings, sanityHero, sanityAbout, sanityServices, sanityExperience] =
   await Promise.all([
     getSiteSettings(), getHero(), getAbout(), getServices(),
-    getTestimonials(), getCaseStudies(), getExperience(),
+    getExperience(),
   ]);
 
 // ── Hero ──────────────────────────────────────────────────────────────────
@@ -53,22 +51,6 @@ if (sanityServices?.length) {
   }));
 }
 
-// ── Testimonials ──────────────────────────────────────────────────────────
-if (sanityTestimonials?.length) {
-  tr.testimonials.items = sanityTestimonials.map((t: any) => ({
-    quote: t.quote_en ?? t.quote, name: t.name, role: t.role,
-  }));
-}
-
-// ── Cases ─────────────────────────────────────────────────────────────────
-if (sanityCases?.length) {
-  tr.cases.items = sanityCases.map((c: any) => ({
-    tag: c.tag_en ?? c.tag, title: c.title_en ?? c.title,
-    industry: c.industry, result: c.result_en ?? c.result,
-    description: c.description_en ?? c.description,
-  }));
-}
-
 // ── Experience ────────────────────────────────────────────────────────────
 if (sanityExperience?.length) {
   tr.experience.items = sanityExperience.map((e: any) => ({
@@ -92,7 +74,5 @@ if (sanityExperience?.length) {
   <About tr={tr} aboutImage={sanityAbout?.image} badgeValue={sanityAbout?.badgeValue} badgeLabel={sanityAbout?.badgeLabel_en ?? sanityAbout?.badgeLabel} />
   <Services tr={tr} />
   <Experience tr={tr} />
-  <Cases tr={tr} />
-  <Testimonials tr={tr} />
   <Contact tr={tr} settings={settings} />
 </Layout>
