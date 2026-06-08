@@ -11,7 +11,7 @@ export const de = {
   hero: {
     available: "Ab sofort verfügbar",
     title: "Johannes Legrand",
-    subtitle: "Interim COO & Geschäftsführer",
+    subtitle: "Interim COO / CSCO / Advisory",
     tagline: "Operationale Exzellenz. Strategische Wirkung. Messbare Ergebnisse.",
     description:
       "Ich übernehme operative Führungsverantwortung in kritischen Phasen – von Transformation und Restrukturierung bis hin zu Wachstum und Internationalisierung. Mit klarem Blick, Tempo und Erfahrung aus über 15 Jahren in Führungspositionen.",
@@ -25,7 +25,7 @@ export const de = {
   },
   about: {
     label: "Über mich",
-    title: "Vom Strategen zum Macher",
+    title: "Interim COO / CSCO / Advisory",
     bio: "Johannes Legrand ist ein erfahrener Interim Manager mit nachgewiesener Erfolgsbilanz als COO, Geschäftsführer und Transformationsverantwortlicher. Er verbindet strategisches Denken mit operativer Durchsetzungsstärke – und bringt Unternehmen in Bewegung, wenn es darauf ankommt.",
     bio2: "Seine Stärke liegt in der schnellen Situationsanalyse, dem Aufbau leistungsfähiger Teams und der konsequenten Umsetzung – messbar, nachhaltig, mit Respekt für Kultur und Menschen.",
     highlights: [

@@ -11,7 +11,7 @@ export const en = {
   hero: {
     available: "Available immediately",
     title: "Johannes Legrand",
-    subtitle: "Interim COO & Managing Director",
+    subtitle: "Interim COO / CSCO / Advisory",
     tagline: "Operational Excellence. Strategic Impact. Measurable Results.",
     description:
       "I take operational leadership responsibility in critical phases – from transformation and restructuring to growth and internationalization. With clear vision, speed, and over 15 years of experience in leadership roles.",
@@ -25,7 +25,7 @@ export const en = {
   },
   about: {
     label: "About",
-    title: "From Strategist to Executor",
+    title: "Interim COO / CSCO / Advisory",
     bio: "Johannes Legrand is an experienced Interim Manager with a proven track record as COO, Managing Director, and transformation leader. He combines strategic thinking with operational decisiveness – and gets organizations moving when it matters most.",
     bio2: "His strengths lie in rapid situation analysis, building high-performance teams, and consistent execution – measurable, sustainable, with respect for culture and people.",
     highlights: [

@@ -23,7 +23,7 @@ const [settings, sanityHero, sanityAbout, sanityServices, sanityExperience] =
 // ── Hero ──────────────────────────────────────────────────────────────────
 if (sanityHero) {
   tr.hero.available    = sanityHero.available    ?? tr.hero.available;
-  tr.hero.subtitle     = sanityHero.subtitle     ?? tr.hero.subtitle;
+  // subtitle from i18n
   tr.hero.tagline      = sanityHero.tagline      ?? tr.hero.tagline;
   tr.hero.description  = sanityHero.description  ?? tr.hero.description;
   if (sanityHero.stats?.length) {
@@ -36,7 +36,7 @@ if (sanityHero) {
 // ── About ─────────────────────────────────────────────────────────────────
 if (sanityAbout) {
   tr.about.label  = sanityAbout.label  ?? tr.about.label;
-  tr.about.title  = sanityAbout.title  ?? tr.about.title;
+  // title from i18n
   tr.about.bio    = sanityAbout.bio    ?? tr.about.bio;
   tr.about.bio2   = sanityAbout.bio2   ?? tr.about.bio2;
   if (sanityAbout.highlights?.length) {
@@ -58,7 +58,9 @@ if (sanityExperience?.length) {
     .map((e: any) => ({
       company: e.company, location: e.location,
       roles: (e.roles ?? []).map((r: any) => ({
-        period: r.period, role: r.role, description: r.description,
+        period: r.period,
+        role: e.company.trim() === "JJL Interim Management" ? "Interim COO / CSCO / Advisory" : r.role,
+        description: r.description,
       })),
     }));
 }
